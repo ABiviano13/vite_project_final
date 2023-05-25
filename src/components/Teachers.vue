@@ -1,0 +1,43 @@
+<script>
+    import axios from 'axios'
+    import TeacherCard from './TeacherCard.vue'
+
+    export default {
+        components: {
+            TeacherCard,
+        },
+        data(){
+
+            Teachers: []
+        },
+        methods: {
+            fetchTeachers(){
+
+                axios.get('http://127.0.0.1:8000/api/teachers')
+                .then(response => {
+                    const results = response.data.results
+                    this.teachers = results.data
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            }
+        },
+        mounted(){
+            this.fetchTeachers()
+        }
+    }
+
+</script>
+
+<template>
+    <div class="container">
+       <TeacherCard v-for="teacher in teachers" :teacher="teacher" :key="teacher.id">
+       </TeacherCard>
+    </div>
+
+</template>
+
+<style scoped>
+
+</style>
