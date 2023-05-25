@@ -8,7 +8,9 @@
         },
         data(){
 
-            Teachers: []
+            return {
+                teachers: []
+            }
         },
         methods: {
             fetchTeachers(){
@@ -16,7 +18,8 @@
                 axios.get('http://127.0.0.1:8000/api/teachers')
                 .then(response => {
                     const results = response.data.results
-                    this.teachers = results.data
+                    this.teachers = results
+                    // console.log(this.teachers)
                 })
                 .catch(error => {
                     console.log(error)

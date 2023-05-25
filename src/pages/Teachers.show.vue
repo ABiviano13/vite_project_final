@@ -1,23 +1,61 @@
 <script>
     import Default from '../layouts/Default.vue'
-    import TeacherCardVue from '../components/TeacherCard.vue';
+    import TeacherCard from '../components/TeacherCard.vue'
+    import axios from 'axios'
 
 
     export default {
         components:{
             Default,
-            TeacherCardVue,
+            TeacherCard,
+        },
+        data() {
+            return {
+                teacher: null,
+                loading: true
+            }
+        },
+        props: ['id'],
+        methods: {
+            fetchTeacher(id) {
+
+                this.loading = true
+
+                axios.get(`http://127.0.0.1:8000/api/teachers/${ id }`)
+                .then( response => {
+                    console.log(response)
+                    const { success, teacher} = response.data
+                    if(success) {
+                        this.teacher = teacher
+                    } else {
+                        console.log(teacher)
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+                .finally(() => {
+                    this.loading = false
+                })
+            }
+        },
+        created() {
+            this.fetchTeacher(this.id)
         }
     }
 </script>
 
 <template>
     <Default>
-        <div class="container">
-            <h1>{{ teacher.name }}</h1>
+        <template v-if="loading == false ">
+            <div class="container">
+                <TeacherCard :teacher="teacher" />
+            </div>
+        </template>
+        <div v-else>
+            ...loading
         </div>
     </Default>
-    <!-- <TeacherCardVue></TeacherCardVue> -->
 </template>
 
 <style scoped>

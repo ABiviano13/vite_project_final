@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 //importiamo le rotte
+import Home from './pages/Home.vue'
 import TeachersIndex from './pages/Teachers.index.vue'
 import TeachersShow from './pages/Teachers.show.vue'
 
@@ -12,12 +13,17 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'index',
+            name: 'home',
+            component: Home
+        },
+        {
+            path: '/blog',
+            name: 'teachers.index',
             component: TeachersIndex,
         },
         {
-            path: '/show',
-            name: 'show',
+            path: '/show/:id',
+            name: 'teachers.show',
             component: TeachersShow,
             props: true,
         }
