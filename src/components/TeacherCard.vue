@@ -10,8 +10,9 @@
 </script>
 
 <template>
+    
     <div class="card">
-        <img :src="teacher.picture" class="card-img-top" :alt="teacher.user.name">
+        <img :src="teacher.picture" class="card-img-top card_image" :alt="teacher.user.name">
         <div class="card-body">
             <h5 class="card-title">{{ teacher.user.name }}</h5>
             <div>
@@ -36,7 +37,7 @@
             </div>
         </div>
         <router-link :to="{name: 'teachers.show', params: { id: teacher.id } }" class="router">
-            <button type="button" class="btn btn-success">Secondary</button>
+            <button type="button" class="btn btn-success card-button">Visualizza</button>
         </router-link>
     </div> 
 
@@ -45,16 +46,32 @@
 <style lang="scss" scoped>
 
 .router{
-    width: min-content;
+    position: relative;
 }
 
 .card{
-    width: 20%;
+    width: 27%;
+    margin-bottom: 30px;
+    padding: 0 !important;
+    box-shadow: 7px 7px 3px #9f9e9e;
+}
+
+.card-button{
+    position: relative;
+    left: 50%;
+    bottom: 30%;
+    transform: translate(-50%);
 }
 
 a{
     color: currentColor;
     text-decoration: none;
 }
+
+.card_image{
+    width: 100%;
+    padding: -24px;
+}
+
 
 </style>

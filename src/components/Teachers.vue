@@ -35,8 +35,13 @@
 
 <template>
     <div class="container">
-       <TeacherCard v-for="teacher in teachers" :teacher="teacher" :key="teacher.id">
-       </TeacherCard>
+        <div class="container">
+            <div class="row justify-content-around">
+                <TeacherCard v-for="teacher in teachers" :teacher="teacher" :key="teacher.id">
+
+                </TeacherCard>
+            </div>
+        </div>
     </div>
 
 </template>
