@@ -49,7 +49,7 @@
     <Default>
         <template v-if="loading == false ">
             <div class="container">
-                <TeacherCard :teacher="teacher" />
+                <TeacherCard :teacher="teacher" class="teacher_card" />
             </div>
         </template>
         <div v-else>
@@ -58,6 +58,11 @@
     </Default>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+.container{
+    display: flex;
+
+}
+
 
 </style>
