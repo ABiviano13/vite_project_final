@@ -4,6 +4,10 @@
             teacher: {
                 type: Object,
                 required: true,
+            },
+            specializations: {
+                type: Object,
+                required: true,
             }
         }
     }
@@ -36,9 +40,17 @@
                 </p>
                 <p>
                     <span class="fw-bold">
-                        Specializzazione:
+                        Specializzazioni:
                     </span>
-                    {{ teacher.specializations.name}}
+                    <ul>
+
+                        <li v-for="specialization in specializations" class="spec_list">
+
+                            {{ specialization.name }}
+
+                        </li>
+
+                    </ul>
                 </p>
             </div>
         </div>
@@ -60,20 +72,24 @@
     margin-bottom: 30px;
     padding: 0 !important;
     box-shadow: 7px 7px 3px #9f9e9e;
+
+    .card_image{
+        width: 100%;
+        padding: -24px;
+    }
+
+    .card-button{
+        position: relative;
+        left: 50%;
+        bottom: 30%;
+        transform: translate(-50%);
+    }
+
+    .spec_list{
+        list-style: circle;
+    }
 }
 
-.card-button{
-    position: relative;
-    left: 50%;
-    bottom: 30%;
-    transform: translate(-50%);
-}
-
-
-.card_image{
-    width: 100%;
-    padding: -24px;
-}
 
 
 </style>

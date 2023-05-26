@@ -35,7 +35,7 @@
 <template>
 
     <div class="row justify-content-around">
-        <TeacherCard v-for="teacher in teachers" :teacher="teacher" :key="teacher.id"></TeacherCard>
+        <TeacherCard v-for="teacher in teachers" :teacher="teacher" :specializations="teacher.specializations" :key="teacher.id"></TeacherCard>
     </div>
 
 </template>
