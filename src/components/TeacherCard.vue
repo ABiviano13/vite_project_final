@@ -44,7 +44,7 @@
 </template>
 
 <style lang="scss" scoped>
-
+@use '../style/partials/variables.scss' as *;
 .router{
     position: relative;
 }
@@ -63,10 +63,6 @@
     transform: translate(-50%);
 }
 
-a{
-    color: currentColor;
-    text-decoration: none;
-}
 
 .card_image{
     width: 100%;

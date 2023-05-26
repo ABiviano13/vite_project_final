@@ -59,6 +59,7 @@
 </template>
 
 <style lang="scss" scoped>
+@use '../style/partials/variables.scss' as *;
 .container{
     display: flex;
 
