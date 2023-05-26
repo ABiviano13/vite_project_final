@@ -10,6 +10,8 @@ export default {
 
 <template>
 
+    <h1>CIAOOOO</h1>
+    
     <TeachersIndex />
 
 </template>

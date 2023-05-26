@@ -1,21 +1,27 @@
 <script>
     import axios from 'axios'
     import TeacherCard from './TeacherCard.vue'
+    import store from '../store'
 
     export default {
         components: {
             TeacherCard,
         },
         data(){
-
             return {
-                teachers: []
+                teachers: [],
+                store,
             }
         },
         methods: {
             fetchTeachers(){
 
-                axios.get('http://127.0.0.1:8000/api/teachers')
+                axios.get('http://127.0.0.1:8000/api/teachers', {
+                    params: {
+                        api_key:'9feb0690aacb6d5cd46a246f69bb9918',
+                        query: this.valueInput
+                    }
+                })
                 .then(response => {
                     const results = response.data.results
                     this.teachers = results
