@@ -1,13 +1,17 @@
 <script>
+import HeaderComponent from '../components/Header.vue';
+
 export default {
-    
+    components: {
+        HeaderComponent
+    }
 }
     
 </script>
 
 <template>
     <header>
-        Header
+        <HeaderComponent></HeaderComponent>
     </header>
 
     <main>
@@ -19,6 +23,7 @@ export default {
     </footer>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+@use '../style/partials/variables.scss' as *;
 
 </style>
