@@ -2,6 +2,31 @@
 
 export default {
 
+    data() {
+        return {
+            routes_links : [
+                {
+                    link: 'Home',
+                    name_route: 'home'
+                },
+                {
+                    link: 'Corsi',
+                    name_route: 'who_i_am'
+                },
+                {
+                    link: 'Professori',
+                    name_route: 'teachers.index'
+                },
+                {
+                    link: 'Chi siamo',
+                    name_route: 'contacts'
+                }
+                
+            ]
+            
+        }
+    }
+
 }
 
 </script>
@@ -18,16 +43,9 @@ export default {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Corsi</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Professori</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Chi siamo</a>
+                    <router-link :to="{ name: link.name_route }">
+                        {{link.link}}
+                    </router-link>
                 </li>
               </ul>
             </div>
@@ -39,8 +57,9 @@ export default {
 <style lang="scss">
 @use '../style/partials/variables.scss' as *;
 
+.navbar-toggler,
 .nav_text *{
-  color: $white-gold;
+  color: $white-gold !important;
 }
 
 .navbar{
