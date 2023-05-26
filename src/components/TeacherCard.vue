@@ -34,6 +34,12 @@
                     </span>
                     {{ teacher.user.address}}
                 </p>
+                <p>
+                    <span class="fw-bold">
+                        Specializzazione:
+                    </span>
+                    {{ teacher.specializations.name}}
+                </p>
             </div>
         </div>
         <router-link :to="{name: 'teachers.show', params: { id: teacher.id } }" class="router">

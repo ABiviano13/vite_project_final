@@ -33,12 +33,9 @@
 </script>
 
 <template>
-    <div class="container">
-        <div class="container">
-            <div class="row justify-content-around">
-                <TeacherCard v-for="teacher in teachers" :teacher="teacher" :key="teacher.id"></TeacherCard>
-            </div>
-        </div>
+
+    <div class="row justify-content-around">
+        <TeacherCard v-for="teacher in teachers" :teacher="teacher" :key="teacher.id"></TeacherCard>
     </div>
 
 </template>

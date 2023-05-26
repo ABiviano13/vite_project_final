@@ -1,18 +1,24 @@
 <script>
 import TeachersIndex from './Teachers.index.vue';
+import Default from '../layouts/Default.vue';
 
 export default {
     components: {
-        TeachersIndex
+        TeachersIndex,
+        Default
     }
 }
 </script>
 
 <template>
 
-    <h1>CIAOOOO</h1>
-    
-    <TeachersIndex />
+    <Default>
+        
+        <div class="container">
+            <TeachersIndex />
+        </div>
+
+    </Default>
 
 </template>
 
