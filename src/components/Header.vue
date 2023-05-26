@@ -11,7 +11,7 @@ export default {
         <div class="container-fluid">
             <a class="navbar-brand logo" href="#">
                 <!-- <i class="fa-brands fa-bitcoin fa-spin fa-spin-reverse" style="color: white;"></i> -->
-                <img src="/public/img/logo.png" alt="" class="logo">
+                <img src="/public/img/logo.png" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
