@@ -7,8 +7,8 @@ export default {
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary nav_text">
+        <div class="container d-flex">
             <a class="navbar-brand logo" href="#">
                 <!-- <i class="fa-brands fa-bitcoin fa-spin fa-spin-reverse" style="color: white;"></i> -->
                 <img src="/public/img/logo.png" alt="">
@@ -22,24 +22,15 @@ export default {
                   <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Link</a>
+                  <a class="nav-link" href="#">Corsi</a>
                 </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Professori</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Chi siamo</a>
                 </li>
               </ul>
-              <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-              </form>
             </div>
         </div>
     </nav>
@@ -49,12 +40,24 @@ export default {
 <style lang="scss">
 @use '../style/partials/variables.scss' as *;
 
-.navbar{
-    background-color: $light_green;
+.nav_text *{
+  color: rgb(246, 186, 186) !important;
+}
 
+.navbar{
+  background-color: $light_green;
+  font-weight: 400;
+  margin-bottom: 1px;
+  margin-top: 1px;
+
+  .container{
     .logo{
-        width: 15%;
+      margin-right: auto;
     }
+  }
+  .logo{
+    width: 150px;
+  }
 }
 
 
