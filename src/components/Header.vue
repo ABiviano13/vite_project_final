@@ -10,7 +10,6 @@ export default {
     <nav class="navbar navbar-expand-lg bg-body-tertiary nav_text">
         <div class="container d-flex">
             <a class="navbar-brand logo" href="#">
-                <!-- <i class="fa-brands fa-bitcoin fa-spin fa-spin-reverse" style="color: white;"></i> -->
                 <img src="/public/img/logo.png" alt="">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +40,7 @@ export default {
 @use '../style/partials/variables.scss' as *;
 
 .nav_text *{
-  color: rgb(246, 186, 186) !important;
+  color: $white-gold;
 }
 
 .navbar{
@@ -49,14 +48,12 @@ export default {
   font-weight: 400;
   margin-bottom: 1px;
   margin-top: 1px;
-
-  .container{
-    .logo{
-      margin-right: auto;
-    }
-  }
   .logo{
     width: 150px;
+  }
+
+  .navbar-collapse{
+    flex-grow: 0;
   }
 }
 
