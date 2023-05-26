@@ -1,46 +1,67 @@
-<script>
-    import axios from 'axios'
-    import TeacherCard from './TeacherCard.vue'
-
-    export default {
-        components: {
-            TeacherCard,
-        },
-        data(){
-            return {
-                teachers: [],
-            }
-        },
-        methods: {
-            fetchTeachers(){
-
-                axios.get('http://127.0.0.1:8000/api/teachers')
-                .then(response => {
-                    const results = response.data.results
-                    this.teachers = results
-                    // console.log(this.teachers)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-            }
-        },
-        mounted(){
-            this.fetchTeachers()
-        }
-    }
-
-</script>
-
 <template>
-
-    <div class="row justify-content-around">
-        <TeacherCard v-for="teacher in teachers" :teacher="teacher" :specializations="teacher.specializations" :key="teacher.id"></TeacherCard>
+    <div>
+      <select v-model="selectedSpecialization">
+        <option value="">Tutte le specializzazioni</option>
+        <option v-for="specialization in specializations" :value="specialization" :key="specialization">
+          {{ specialization }}
+        </option>
+      </select>
+  
+      <div class="row justify-content-around">
+        <TeacherCard v-for="teacher in filteredTeachers" :teacher="teacher" :specializations="teacher.specializations" :key="teacher.id"></TeacherCard>
+      </div>
     </div>
-
-</template>
-
-<style lang="scss">
-@use '../style/partials/variables.scss' as *;
-
-</style>
+  </template>
+  
+  <script>
+  import axios from 'axios'
+  import TeacherCard from './TeacherCard.vue'
+  
+  export default {
+    components: {
+      TeacherCard,
+    },
+    data() {
+      return {
+        teachers: [],
+        specializations: [],
+        selectedSpecialization: '',
+      }
+    },
+    methods: {
+      fetchTeachers() {
+        axios.get('http://127.0.0.1:8000/api/teachers')
+          .then(response => {
+            const results = response.data.results;
+            this.teachers = results;
+  
+            const allSpecializations = results.flatMap(teacher => teacher.specializations);
+            this.specializations = [...new Set(allSpecializations.map(spec => spec.name))];
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      },
+    },
+    mounted() {
+      this.fetchTeachers();
+    },
+    computed: {
+      filteredTeachers() {
+        if (this.selectedSpecialization) {
+          return this.teachers.filter(teacher => {
+            const specializations = teacher.specializations.map(spec => spec.name);
+            return specializations.includes(this.selectedSpecialization);
+          });
+        } else {
+          return this.teachers;
+        }
+      },
+    },
+  }
+  </script>
+  
+  <style lang="scss">
+  @use '../style/partials/variables.scss' as *;
+  </style>
+  
