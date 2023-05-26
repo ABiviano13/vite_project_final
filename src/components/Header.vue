@@ -11,7 +11,7 @@ export default {
                 },
                 {
                     link: 'Corsi',
-                    name_route: 'who_i_am'
+                    name_route: 'courses'
                 },
                 {
                     link: 'Professori',
@@ -19,7 +19,7 @@ export default {
                 },
                 {
                     link: 'Chi siamo',
-                    name_route: 'contacts'
+                    name_route: 'who_we_are'
                 }
                 
             ]
@@ -42,10 +42,10 @@ export default {
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <router-link :to="{ name: link.name_route }">
-                        {{link.link}}
-                    </router-link>
+                <li class="nav-item" v-for="link in routes_links" :key="link.name_route">
+                  <router-link :to="{ name: link.name_route }">
+                    {{ link.link }}
+                  </router-link>
                 </li>
               </ul>
             </div>
