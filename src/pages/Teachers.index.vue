@@ -1,16 +1,25 @@
 <script>
     import Teachers from '../components/Teachers.vue'
+    import Default from '../layouts/Default.vue';
 
     export default {
         components:{
             Teachers,
+            Default
         }
     }
 </script>
 
 <template>
+    <Default>
 
-    <Teachers />
+        <div class="container">
+
+            <Teachers />
+
+        </div>
+
+    </Default>
 
 </template>
 

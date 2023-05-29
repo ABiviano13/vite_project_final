@@ -10,11 +10,11 @@ export default {
 </script>
 
 <template>
-    <header>
+    <header class="main-header">
         <HeaderComponent></HeaderComponent>
     </header>
 
-    <main>
+    <main class="main-content">
         <slot />
     </main>
 
@@ -25,5 +25,16 @@ export default {
 
 <style lang="scss" scoped>
 @use '../style/partials/variables.scss' as *;
+
+.main-header{
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+}
+
+.main-content{
+    margin-top: 5%;
+}
 
 </style>
