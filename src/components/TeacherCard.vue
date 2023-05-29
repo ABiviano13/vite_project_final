@@ -43,14 +43,16 @@
                         Specializzazioni:
                     </span>
                     <ul>
-
                         <li v-for="specialization in specializations" class="spec_list">
-
                             {{ specialization.name }}
-
                         </li>
-
                     </ul>
+                </p>
+                <p>
+                    <span class="fw-bold">
+                      Prestazioni:
+                    </span>
+                    <span v-html="teacher.performance"></span>
                 </p>
             </div>
         </div>
