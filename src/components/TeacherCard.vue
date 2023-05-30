@@ -16,7 +16,8 @@
 <template>
     
     <div class="card">
-        <img :src="teacher.picture" class="card-img-top card_image" :alt="teacher.user.name">
+        <img v-if="teacher.id <= 16" :src="teacher.picture" class="card-img-top card_image" :alt="teacher.user.name">
+        <img v-else :src="teacher.picture_path" :alt="teacher.user.name">
         <div class="card-body">
             <h5 class="card-title">{{ teacher.user.name }}</h5>
             <div>
