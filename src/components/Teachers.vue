@@ -1,11 +1,15 @@
 <template>
     <div>
-      <select v-model="selectedSpecialization" class="select_specialization" >
-        <option value="">Tutte le specializzazioni</option>
-        <option v-for="specialization in specializations" :value="specialization" :key="specialization">
-          {{ specialization }}
-        </option>
-      </select>
+      <div class="filter">
+        <select v-model="selectedSpecialization" class="select_specialization" >
+          <option value="">Tutte le specializzazioni</option>
+          <option v-for="specialization in specializations" :value="specialization" :key="specialization">
+            {{ specialization }}
+          </option>
+        </select>
+        
+
+      </div>
   
       <div class="row justify-content-around">
         <TeacherCard v-for="teacher in filteredTeachers" :teacher="teacher" :specializations="teacher.specializations" :key="teacher.id"></TeacherCard>
@@ -66,7 +70,6 @@
 @use '../style/partials/variables.scss' as *;
 
 .select_specialization{
-  width: 100%;
   margin: 15px;
   padding: 5px;
   border: 1px solid $light_green;

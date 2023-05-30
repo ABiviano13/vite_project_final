@@ -9,7 +9,17 @@
                 type: Object,
                 required: true,
             }
-        }
+        },
+        computed: {
+            averageVotes() {
+                if (this.teacher.votes.length === 0) {
+                    return 0; 
+                }
+
+                const totalVotes = this.teacher.votes.reduce((sum, vote) => sum + vote.vote, 0);
+                return Math.round(totalVotes / this.teacher.votes.length);
+            },
+        },
     }
 </script>
 
@@ -17,11 +27,10 @@
     
     <div class="card">
         <img v-if="teacher.id <= 16" :src="teacher.picture" class="card-img-top card_image" :alt="teacher.user.name">
-        <img v-else :src="teacher.picture_path" :alt="teacher.user.name">
+        <img v-else :src="teacher.picture_path" :alt="teacher.user.name" class="card-img-top card_image">
         <div class="card-body">
             <h5 class="card-title">{{ teacher.user.name }}</h5>
-            <div>
-                <p>
+            <p>
                     <span class="fw-bold">
                         Email:
                     </span>
@@ -39,7 +48,7 @@
                     </span>
                     {{ teacher.user.address}}
                 </p>
-                <p>
+                <p class="text_spec">
                     <span class="fw-bold">
                         Specializzazioni:
                     </span>
@@ -55,7 +64,14 @@
                     </span>
                     <span v-html="teacher.performance"></span>
                 </p>
-            </div>
+                <p class="star_votes text-center">
+                    <span>
+                        <template v-for="n in 5">
+                          <i v-if="n <= averageVotes" class="fa-solid fa-star"></i>
+                          <i v-else class="fa-regular fa-star"></i>
+                        </template>
+                    </span>
+                </p>
         </div>
         <router-link :to="{name: 'teachers.show', params: { id: teacher.id } }" class="router">
             <button type="button" class="btn btn-success card-button">Visualizza</button>
@@ -75,10 +91,25 @@
     margin-bottom: 30px;
     padding: 0 !important;
     box-shadow: 7px 7px 3px #9f9e9e;
+    
+    .card-body{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
 
-    .card_image{
-        width: 100%;
-        padding: -24px;
+        .text_spec{
+            height: 50%;
+        }
+
+        .spec_list{
+            list-style: circle;
+        }
+
+        .star_votes{
+            position: relative;
+            bottom: 20px;
+        }
+
     }
 
     .card-button{
@@ -86,10 +117,6 @@
         left: 50%;
         bottom: 30%;
         transform: translate(-50%);
-    }
-
-    .spec_list{
-        list-style: circle;
     }
 }
 

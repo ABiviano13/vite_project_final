@@ -1,10 +1,9 @@
 <script>
-import Teachers from '../components/Teachers.vue';
 import Default from '../layouts/Default.vue';
 
 export default {
     components: {
-        Teachers,
+
         Default
     }
 }
@@ -15,7 +14,7 @@ export default {
     <Default>
         
         <div class="container">
-            <Teachers />
+            
         </div>
 
     </Default>
