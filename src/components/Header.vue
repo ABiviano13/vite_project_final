@@ -65,8 +65,6 @@ export default {
 .navbar{
   background-color: $light_green;
   font-weight: 400;
-  margin-bottom: 1px;
-  margin-top: 1px;
   .logo{
     width: 150px;
   }
