@@ -49,7 +49,7 @@
                         </li>
                     </ul>
                 </p>
-                <p>
+                <p v-if="teacher.performance != null">
                     <span class="fw-bold">
                       Prestazioni:
                     </span>

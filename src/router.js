@@ -39,7 +39,6 @@ const router = createRouter({
             name: 'who_we_are',
             component: WhoWeAre,
         },
-        
     ]
 })
 

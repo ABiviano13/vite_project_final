@@ -1,6 +1,6 @@
 <template>
     <div>
-      <select v-model="selectedSpecialization" class="select_specialization">
+      <select v-model="selectedSpecialization" class="select_specialization" >
         <option value="">Tutte le specializzazioni</option>
         <option v-for="specialization in specializations" :value="specialization" :key="specialization">
           {{ specialization }}
@@ -11,9 +11,9 @@
         <TeacherCard v-for="teacher in filteredTeachers" :teacher="teacher" :specializations="teacher.specializations" :key="teacher.id"></TeacherCard>
       </div>
     </div>
-  </template>
+</template>
   
-  <script>
+<script>
   import axios from 'axios'
   import TeacherCard from './TeacherCard.vue'
   
@@ -40,8 +40,8 @@
           })
           .catch(error => {
             console.log(error);
-          });
-      },
+          })
+      }
     },
     mounted() {
       this.fetchTeachers();
@@ -58,8 +58,9 @@
         }
       },
     },
+  
   }
-  </script>
+</script>
   
 <style lang="scss">
 @use '../style/partials/variables.scss' as *;

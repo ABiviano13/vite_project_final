@@ -5,22 +5,22 @@ export default {
     data() {
         return {
             routes_links : [
-                {
-                    link: 'Home',
-                    name_route: 'home'
-                },
-                {
-                    link: 'Corsi',
-                    name_route: 'courses'
-                },
-                {
-                    link: 'Professori',
-                    name_route: 'teachers.index'
-                },
-                {
-                    link: 'Chi siamo',
-                    name_route: 'who_we_are'
-                }
+              {
+                link: 'Home',
+                name_route: 'home'
+              },
+              {
+                link: 'Corsi',
+                name_route: 'courses'
+              },
+              {
+                link: 'Professori',
+                name_route: 'teachers.index'
+              },
+              {
+                link: 'Chi siamo',
+                name_route: 'who_we_are'
+              }
                 
             ]
             
@@ -46,6 +46,16 @@ export default {
                   <router-link :to="{ name: link.name_route }">
                     {{ link.link }}
                   </router-link>
+                </li>
+                <li class="nav-item">
+                  <a href="http://127.0.0.1:8000/login">
+                    Login
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="http://127.0.0.1:8000/register">
+                    Registrati
+                  </a>
                 </li>
               </ul>
             </div>
