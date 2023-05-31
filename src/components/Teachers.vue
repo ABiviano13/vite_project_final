@@ -29,7 +29,7 @@
       <div v-if="filteredTeachers.length === 0" class="no-results">
       Nessun professore trovato.
     </div>
-    </div>
+  </div>
 </template>
   
 <script>
@@ -46,7 +46,7 @@
         specializations: [],
         selectedSpecialization: '',
         search: '',
-        selectedStars: 0,
+        selectedStars: '',
         votes: []
       }
     },
