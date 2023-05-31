@@ -17,6 +17,7 @@
                 }
 
                 const totalVotes = this.teacher.votes.reduce((sum, vote) => sum + vote.vote, 0);
+                console.log(Math.round(totalVotes / this.teacher.votes.length))
                 return Math.round(totalVotes / this.teacher.votes.length);
             },
         },

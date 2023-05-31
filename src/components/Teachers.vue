@@ -4,20 +4,31 @@
         <h5>
           Cerca attraverso i filtri
         </h5>
-        <select v-model="selectedSpecialization" class="select_specialization" >
+
+        <input type="text" class="select_filter" v-model="search" placeholder="Cerca teacher">
+
+        <select v-model="selectedSpecialization" class="select_filter" >
           <option value="">Tutte le specializzazioni</option>
           <option v-for="specialization in specializations" :value="specialization" :key="specialization">
             {{ specialization }}
           </option>
         </select>
 
-        <input type="text" class="select_specialization" v-model="search" placeholder="Cerca teacher">
+        <select v-model="selectedStars" class="select_filter">
+          <option value="">Stelle</option>
+          <option v-for="star in votes" :value="star" :key="star.id">
+            {{ star }}
+          </option>
+        </select>
 
       </div>
   
       <div class="row justify-content-around">
         <TeacherCard v-for="teacher in filteredTeachers" :teacher="teacher" :specializations="teacher.specializations" :key="teacher.id" :class="{ 'hidden': isHidden(teacher)}"></TeacherCard>
       </div>
+      <div v-if="filteredTeachers.length === 0" class="no-results">
+      Nessun professore trovato.
+    </div>
     </div>
 </template>
   
@@ -34,7 +45,9 @@
         teachers: [],
         specializations: [],
         selectedSpecialization: '',
-        search: ''
+        search: '',
+        selectedStars: 0,
+        votes: []
       }
     },
     methods: {
@@ -46,6 +59,12 @@
   
             const allSpecializations = results.flatMap(teacher => teacher.specializations);
             this.specializations = [...new Set(allSpecializations.map(spec => spec.name))];
+
+            const allStars = results.flatMap(teacher => teacher.votes);
+            this.votes = [...new Set(allStars.map(star => star.vote))];
+
+             console.log(allStars)
+            // console.log(this.votes)
           })
           .catch(error => {
             console.log(error);
@@ -59,41 +78,33 @@
 			  const result = !name.includes(search)
 
 			  return result
-
-        // if(this.teachers){
-
-          ////
-
-        // } else {
-        //   const message = 'Spiacenti, non abbiamo alcun professionista con questo nominativo'
-
-        //   return message
-        // }
-		  },
+		  }
+      
     },
     mounted() {
       this.fetchTeachers();
     },
     computed: {
       filteredTeachers() {
-        if (this.selectedSpecialization) {
-          return this.teachers.filter(teacher => {
-            const specializations = teacher.specializations.map(spec => spec.name);
-            return specializations.includes(this.selectedSpecialization);
-          });
-        } else {
-          return this.teachers;
-        }
+        return this.teachers.filter(teacher => {
+          const specializations = teacher.specializations.map(spec => spec.name);
+          const totalVotes = teacher.votes.reduce((sum, vote) => sum + vote.vote, 0);
+          const votesRound = Math.round(totalVotes / teacher.votes.length);
+
+          const specializationFilter = !this.selectedSpecialization || specializations.includes(this.selectedSpecialization);
+          const starsFilter = !this.selectedStars || votesRound === this.selectedStars;
+
+          return specializationFilter && starsFilter;
+        });
       },
-    },
-  
+   },
   }
 </script>
   
 <style lang="scss">
 @use '../style/partials/variables.scss' as *;
 
-.select_specialization{
+.select_filter{
   margin: 15px;
   padding: 5px;
   border: 1px solid $light_green;
