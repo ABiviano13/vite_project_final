@@ -35,6 +35,7 @@
 <script>
   import axios from 'axios'
   import TeacherCard from './TeacherCard.vue'
+  import store from '../store'
   
   export default {
     components: {
@@ -47,7 +48,9 @@
         selectedSpecialization: '',
         search: '',
         selectedStars: '',
-        votes: []
+        votes: [],
+        store,
+        // reviews: 0
       }
     },
     methods: {
@@ -63,7 +66,7 @@
             const allStars = results.flatMap(teacher => teacher.votes);
             this.votes = [...new Set(allStars.map(star => star.vote))];
 
-             console.log(allStars)
+            // console.log(this.reviews)
             // console.log(this.votes)
           })
           .catch(error => {
@@ -92,7 +95,11 @@
           const votesRound = Math.round(totalVotes / teacher.votes.length);
 
           const specializationFilter = !this.selectedSpecialization || specializations.includes(this.selectedSpecialization);
-          const starsFilter = !this.selectedStars || votesRound === this.selectedStars;
+          const starsFilter = !this.selectedStars || votesRound >= this.selectedStars;
+
+          // this.reviews = this.store.reviewsTeacherLength
+
+          // console.log(this.reviews)
 
           return specializationFilter && starsFilter;
         });

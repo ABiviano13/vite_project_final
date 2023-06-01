@@ -1,6 +1,7 @@
 <script>
     import Default from '../layouts/Default.vue'
     import axios from 'axios'
+    import store from '../store'
 
 
     export default {
@@ -10,7 +11,9 @@
         data() {
             return {
                 teacher: null,
-                loading: true
+                loading: true,
+                reviews: [],
+                store
             }
         },
         props: ['id'],
@@ -25,6 +28,10 @@
                     const { success, teacher} = response.data
                     if(success) {
                         this.teacher = teacher
+                        this.reviews = teacher.review
+
+                        this.store.reviewsTeacherLength = this.reviews.length
+                        
                     } else {
                         console.log(teacher)
                     }
@@ -35,6 +42,11 @@
                 .finally(() => {
                     this.loading = false
                 })
+            }
+        },
+        computed: {
+            lengthReviews() {
+                return this.store.reviewsTeacherLength = this.reviews.length
             }
         },
         created() {
@@ -90,7 +102,7 @@
                                 </ul>
                             </div>
 
-                            <div class="specializations_teacher">
+                            <div class="reviews_teacher">
                                 <div class="accordion" id="accordionExample">
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
@@ -107,6 +119,11 @@
                                         </ul>
                                     </div>
                                 </div>
+
+                                <form action="">
+                                    <textarea name="review" id="review" cols="20" rows="5" placeholder="Scrivi la tua recensione"></textarea>
+                                </form>
+
                             </div>
 
                         </div>
