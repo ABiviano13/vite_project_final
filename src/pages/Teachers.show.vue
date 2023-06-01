@@ -92,6 +92,19 @@
                                 </ul>
                             </div>
 
+                            <div class="specializations_teacher">
+                                <h3 class="fw-bold">
+                                    Recensioni
+                                </h3>
+                                <ul>
+                                    <li v-for="review in teacher.review.text" class="text-justify">
+                                        <p class="fw-bold gray_color_text mt-3">
+                                            {{ review }}
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+
                         </div>
 
                     </div>
