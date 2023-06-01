@@ -133,6 +133,7 @@
                                     <option value=""> La tua richiesta </option>
                                     <option value="prenotazione">Richiesta di prenotazione</option>
                                     <option value="annullamento">Richiesta di annullamento</option>
+                                    <option value="annullamento">Richiesta di informazioni</option>
                                 </select>
                             </div>
                             <textarea name="" id="" cols="30" rows="10" class="input_style p-0" v-model="message">
