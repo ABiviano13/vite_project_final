@@ -1,13 +1,11 @@
 <script>
     import Default from '../layouts/Default.vue'
-    import TeacherCard from '../components/TeacherCard.vue'
     import axios from 'axios'
 
 
     export default {
         components:{
             Default,
-            TeacherCard,
         },
         data() {
             return {
@@ -93,16 +91,22 @@
                             </div>
 
                             <div class="specializations_teacher">
-                                <h3 class="fw-bold">
-                                    Recensioni
-                                </h3>
-                                <ul>
-                                    <li v-for="review in teacher.review.text" class="text-justify">
-                                        <p class="fw-bold gray_color_text mt-3">
-                                            {{ review }}
-                                        </p>
-                                    </li>
-                                </ul>
+                                <div class="accordion" id="accordionExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                <h3 class="fw-bold">
+                                                    Recensioni
+                                                </h3>
+                                            </button>
+                                        </h2>
+                                        <ul id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                            <li class="accordion-body" v-for="review in teacher.review">
+                                                {{ review.text }}                                    
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -177,6 +181,11 @@
 
     li{
         list-style: circle;
+    }
+
+    .accordion-button:not(.collapsed){
+        background-color: $white !important;
+        color: currentColor !important;
     }
 
     .row{
