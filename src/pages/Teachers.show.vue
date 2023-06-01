@@ -13,7 +13,15 @@
                 teacher: null,
                 loading: true,
                 reviews: [],
-                store
+                store,
+                ui_name: '',
+                ui_email: '',
+                ui_phone: '',
+                title: '',
+                message: '',
+                success: false,
+                errors: null,
+
             }
         },
         props: ['id'],
@@ -42,12 +50,69 @@
                 .finally(() => {
                     this.loading = false
                 })
+            },
+            validate() {
+
+                return this.nameIsValid && this.emailIsValid && this.messageIsValid && this.phoneIsValid && this.titleIsValid
+
+            },
+            submitForm() {
+                const data = {
+                    name: this.ui_name,
+                    email: this.ui_email,
+                    phone: this.ui_phone,
+                    title: this.title,
+                    message: this.message
+                }
+
+                if(this.validate() === false) {
+                    alert('Compila il form')
+                    return 
+                }
+        
+                axios.post('/api/messages', data)
+                .then(response => {
+                    console.log('Messaggio salvato con successo');
+
+                    const { success, errors } = response.data
+
+                    this.success = success
+
+                    if(success) {
+                        this.ui_name = ''
+                        this.ui_email = ''
+                        this.ui_phone = ''
+                        this.title = ''
+                        this.message = ''
+                        this.errors = null
+                    } else {
+                        this.errors = errors
+                    }
+                })
+                .catch(error => {
+                    console.error('Errore durante il salvataggio del messaggio', error);
+                });
             }
         },
         computed: {
             lengthReviews() {
                 return this.store.reviewsTeacherLength = this.reviews.length
-            }
+            },
+            nameIsValid() {
+                return this.ui_name.trim() !== '' && this.ui_name.trim().length <= 100 
+            },
+            emailIsValid() {
+                return this.ui_email.trim() !== '' && this.ui_email.trim().length <= 100 
+            },
+            phoneIsValid() {
+                return this.ui_phone.trim() !== '' && this.ui_phone.trim().length <= 50 
+            },
+            titleIsValid() {
+                return this.title.trim() !== '' && this.title.trim().length <= 255 
+            },
+            messageIsValid() {
+                return this.message.trim() !== ''
+            }      
         },
         created() {
             this.fetchTeacher(this.id)
@@ -158,12 +223,16 @@
                         <h3>
                             Per prenotare, o annullare una prenotazione già effettuata, compila il seguente form:
                         </h3>
-                        <form action="" class="d-flex flex-column gap-2">
+                        <div v-if="success" >
+                            Messaggio inviato con successo!
+                        </div>
+                        <form @submit.prevent="submitForm" class="d-flex flex-column gap-2">
                             <div class="d-flex justify-content-around">
                                 <input type="text" placeholder="Il tuo nome" class="input_style" v-model="ui_name">
                                 <input type="email" placeholder="La tua email" class="input_style" v-model="ui_email">
+                                <input type="text" placeholder="Il tuo telefono" class="input_style" v-model="ui_phone">
 
-                                <select name="" id="" class="input_style">
+                                <select name="" id="" class="input_style" v-model="title">
                                     <option value=""> La tua richiesta </option>
                                     <option value="prenotazione">Richiesta di prenotazione</option>
                                     <option value="annullamento">Richiesta di annullamento</option>
