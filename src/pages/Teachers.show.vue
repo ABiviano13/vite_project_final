@@ -11,14 +11,14 @@
         data() {
             return {
                 teacher: null,
-                loading: true,
+                loading: false,
                 reviews: [],
                 store,
                 ui_name: '',
                 ui_email: '',
                 ui_phone: '',
                 title: '',
-                message: '',
+                text: '',
                 success: false,
                 errors: null,
 
@@ -32,7 +32,7 @@
 
                 axios.get(`http://127.0.0.1:8000/api/teachers/${ id }`)
                 .then( response => {
-                    console.log(response)
+                    // console.log(response)
                     const { success, teacher} = response.data
                     if(success) {
                         this.teacher = teacher
@@ -45,74 +45,61 @@
                     }
                 })
                 .catch(error => {
-                    console.log(error)
+                    // console.log(error)
                 })
                 .finally(() => {
                     this.loading = false
                 })
             },
-            validate() {
-
-                return this.nameIsValid && this.emailIsValid && this.messageIsValid && this.phoneIsValid && this.titleIsValid
-
+            textAreaValidate() {
+                let textLenghtValid = this.text.length <= 1000;
+                return textLenghtValid;
             },
-            submitForm() {
-                const data = {
-                    name: this.ui_name,
-                    email: this.ui_email,
-                    phone: this.ui_phone,
+            formValidate() {
+                let nameValid = this.ui_name.trim() !== "" && this.ui_name.trim().length <= 50;
+                let emailValid = this.ui_email.trim() !== "" && this.ui_email.trim().length <= 100;
+                let phoneValid = this.ui_phone.trim() !== "" && this.ui_phone.trim().length <= 50;
+                let textValid = this.text.trim() !== "" && this.title.trim().length <= 100;
+                let textLenghtValid = this.text.trim().length <= 1000;
+
+                return nameValid && emailValid && textValid && textLenghtValid && phoneValid;
+            },
+
+            sendForm() {
+                let data = {
+                    ui_name: this.name,
+                    ui_email: this.email,
+                    ui_phone: this.phone,
                     title: this.title,
-                    message: this.message
-                }
+                    text: this.text,
+                };
+                this.loading = true;
+                axios
+                    .post("http://127.0.0.1:8000/api/messages", data)
+                    .then((res) => {
+                    let { success, errors } = res.data;
+                    this.success = success;
 
-                if(this.validate() === false) {
-                    alert('Compila il form')
-                    return 
-                }
-        
-                axios.post('/api/messages', data)
-                .then(response => {
-                    console.log('Messaggio salvato con successo');
-
-                    const { success, errors } = response.data
-
-                    this.success = success
-
-                    if(success) {
-                        this.ui_name = ''
-                        this.ui_email = ''
-                        this.ui_phone = ''
-                        this.title = ''
-                        this.message = ''
-                        this.errors = null
+                    if (success) {
+                        this.ui_name = "";
+                        this.ui_email = "";
+                        this.text = "";
+                        this.errors = null;
                     } else {
-                        this.errors = errors
+                        this.errors = errors;
+                        console.log(errors)
                     }
                 })
-                .catch(error => {
-                    console.error('Errore durante il salvataggio del messaggio', error);
+                .catch((err) => {})
+                .finally(() => {
+                    this.loading = false;
                 });
             }
         },
         computed: {
             lengthReviews() {
                 return this.store.reviewsTeacherLength = this.reviews.length
-            },
-            nameIsValid() {
-                return this.ui_name.trim() !== '' && this.ui_name.trim().length <= 100 
-            },
-            emailIsValid() {
-                return this.ui_email.trim() !== '' && this.ui_email.trim().length <= 100 
-            },
-            phoneIsValid() {
-                return this.ui_phone.trim() !== '' && this.ui_phone.trim().length <= 50 
-            },
-            titleIsValid() {
-                return this.title.trim() !== '' && this.title.trim().length <= 255 
-            },
-            messageIsValid() {
-                return this.message.trim() !== ''
-            }      
+            }
         },
         created() {
             this.fetchTeacher(this.id)
@@ -122,7 +109,6 @@
 
 <template>
     <Default>
-        <template v-if="loading == false ">
             <div class="container">
                 <div class="row justify-content-between">
                     <div class="col col-8">
@@ -226,31 +212,67 @@
                         <div v-if="success" >
                             Messaggio inviato con successo!
                         </div>
-                        <form @submit.prevent="submitForm" class="d-flex flex-column gap-2">
-                            <div class="d-flex justify-content-around">
-                                <input type="text" placeholder="Il tuo nome" class="input_style" v-model="ui_name">
-                                <input type="email" placeholder="La tua email" class="input_style" v-model="ui_email">
-                                <input type="text" placeholder="Il tuo telefono" class="input_style" v-model="ui_phone">
+                        <form @submit.prevent="sendForm" class="d-flex flex-column gap-2" method="POST">
 
-                                <select name="" id="" class="input_style" v-model="title">
-                                    <option value=""> La tua richiesta </option>
-                                    <option value="prenotazione">Richiesta di prenotazione</option>
-                                    <option value="annullamento">Richiesta di annullamento</option>
-                                    <option value="annullamento">Richiesta di informazioni</option>
-                                </select>
+                            <div class="d-flex justify-content-around">
+                                <p>
+                                    <input type="text" placeholder="Il tuo nome" :class="errors && errors.ui_name ? 'text-danger' : 'input_style'" v-model="ui_name">
+                                    <span>caratteri rimasti: {{ 100 - ui_name.length }}</span>
+                                    <small v-if="errors && errors.ui_email" class="text-danger">
+                                        <span v-for="error in errors.ui_email" :key="error">{{ error }}</span>
+                                    </small>
+
+                                </p>
+
+                                <p>
+
+                                    <input type="email" placeholder="La tua email" :class="errors && errors.ui_email ? 'text-danger' : 'input_style'" v-model="ui_email">
+                                    <span>caratteri rimasti: {{ 100 - ui_email.length }}</span>
+                                    <small v-if="errors && errors.ui_email" class="text-danger">
+                                        <span v-for="error in errors.ui_email" :key="error">{{ error }}</span>
+                                    </small>
+
+                                </p>
+
+                                <p>
+
+                                    <input type="text" placeholder="Il tuo telefono" :class="errors && errors.ui_phone ? 'text-danger' : 'input_style'" v-model="ui_phone">
+                                    <span>caratteri rimasti: {{ 100 - ui_phone.length }}</span>
+                                    <small v-if="errors && errors.ui_phone" class="text-danger">
+                                        <span v-for="error in errors.ui_phone" :key="error">{{ error }}</span>
+                                    </small>
+
+                                </p>
+
+                                <p>
+                                    <select name="" id="" v-model="title" :class="errors && errors.title ? 'text-danger' : 'input_style'">
+                                        <option value=""> La tua richiesta </option>
+                                        <option value="prenotazione">Richiesta di prenotazione</option>
+                                        <option value="annullamento">Richiesta di annullamento</option>
+                                        <option value="informazioni">Richiesta di informazioni</option>
+                                    </select>
+                                    <small v-if="errors && errors.title" class="text-danger">
+                                        <span v-for="error in errors.title" :key="error">{{ error }}</span>
+                                    </small>
+                                </p>
+
                             </div>
-                            <textarea name="" id="" cols="30" rows="10" class="input_style p-0" v-model="message">
-                                Scrivi il tuo messaggio
-                            </textarea>
-                            <button type="submit" class="input_style">Invia il messaggio</button>
+                            <p>
+                                <textarea name="" id="" cols="30" rows="10" v-model="text" :class="errors && errors.text ? 'text-danger' : 'input_style'">
+                                    Scrivi il tuo messaggio
+                                </textarea>
+                                <small v-if="errors && errors.text" class="text-danger">
+                                    <span v-for="error in errors.text" :key="error">{{ error }}</span>
+                                </small>
+                            </p>
+                            <button v-if="loading === false" type="submit" class="input_style" :class=" !formValidate() ? 'opacity-25' : '', 'input_style'">
+                                Invia il messaggio
+                            </button>
+                            <div class="animate-pulse" v-else>sending...</div>
                         </form>
                     </div>
                 </div>
             </div>
-        </template>
-        <div v-else>
-            ...loading
-        </div>
     </Default>
 </template>
 
@@ -306,7 +328,7 @@
                 background-color: $light_gray !important;
 
                 .btn{
-                    --bs-btn-color: none!important;
+                    --bs-btn-color: none !important;
                 }
 
             }
