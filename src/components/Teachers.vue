@@ -88,22 +88,18 @@
       this.fetchTeachers();
     },
     computed: {
-      filteredTeachers() {
-        return this.teachers.filter(teacher => {
-          const specializations = teacher.specializations.map(spec => spec.name);
-          const totalVotes = teacher.votes.reduce((sum, vote) => sum + vote.vote, 0);
-          const votesRound = Math.round(totalVotes / teacher.votes.length);
+    filteredTeachers() {
+      return this.teachers.filter(teacher => {
+        const specializations = teacher.specializations.map(spec => spec.name);
+        const totalVotes = teacher.votes.reduce((sum, vote) => sum + vote.vote, 0);
+        const votesRound = Math.round(totalVotes / teacher.votes.length);
 
-          const specializationFilter = !this.selectedSpecialization || specializations.includes(this.selectedSpecialization);
-          const starsFilter = !this.selectedStars || votesRound >= this.selectedStars;
+        const specializationFilter = !this.selectedSpecialization || specializations.includes(this.selectedSpecialization);
+        const starsFilter = !this.selectedStars || votesRound >= this.selectedStars;
 
-          // this.reviews = this.store.reviewsTeacherLength
-
-          // console.log(this.reviews)
-
-          return specializationFilter && starsFilter;
-        });
-      },
+        return specializationFilter && starsFilter;
+      });
+    }
    },
   }
 </script>
