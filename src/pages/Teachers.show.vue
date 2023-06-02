@@ -59,30 +59,40 @@
                 let nameValid = this.ui_name.trim() !== "" && this.ui_name.trim().length <= 50;
                 let emailValid = this.ui_email.trim() !== "" && this.ui_email.trim().length <= 100;
                 let phoneValid = this.ui_phone.trim() !== "" && this.ui_phone.trim().length <= 50;
-                let textValid = this.text.trim() !== "" && this.title.trim().length <= 100;
+                let titleValid = this.title.trim() !== "" && this.title.trim().length <= 100;
+                let textValid = this.text.trim() !== "" && this.text.trim().length <= 3000;
                 let textLenghtValid = this.text.trim().length <= 1000;
 
-                return nameValid && emailValid && textValid && textLenghtValid && phoneValid;
+                return nameValid && emailValid && textValid && textLenghtValid && phoneValid && titleValid;
             },
 
             sendForm() {
                 let data = {
-                    ui_name: this.name,
-                    ui_email: this.email,
-                    ui_phone: this.phone,
+                    ui_name: this.ui_name,
+                    ui_email: this.ui_email,
+                    ui_phone: this.ui_phone,
                     title: this.title,
                     text: this.text,
                 };
+
+                if(!this.formValidate()) {
+                    alert('Compila il form')
+                    return 
+                }
+
                 this.loading = true;
+
                 axios
                     .post("http://127.0.0.1:8000/api/messages", data)
-                    .then((res) => {
+                    .then(res => {
                     let { success, errors } = res.data;
                     this.success = success;
 
                     if (success) {
                         this.ui_name = "";
                         this.ui_email = "";
+                        this.ui_phone = "";
+                        this.title = "";
                         this.text = "";
                         this.errors = null;
                     } else {
@@ -212,21 +222,21 @@
                         <div v-if="success" >
                             Messaggio inviato con successo!
                         </div>
-                        <form @submit.prevent="sendForm" class="d-flex flex-column gap-2" method="POST">
+                        <form @submit.prevent="sendForm" class="d-flex flex-column gap-2">
 
                             <div class="d-flex justify-content-around">
                                 <p>
-                                    <input type="text" placeholder="Il tuo nome" :class="errors && errors.ui_name ? 'text-danger' : 'input_style'" v-model="ui_name">
+                                    <input type="text" name="ui_name" placeholder="Il tuo nome" :class="errors && errors.ui_name ? 'text-danger' : 'input_style'" v-model="ui_name">
                                     <span>caratteri rimasti: {{ 100 - ui_name.length }}</span>
-                                    <small v-if="errors && errors.ui_email" class="text-danger">
-                                        <span v-for="error in errors.ui_email" :key="error">{{ error }}</span>
+                                    <small v-if="errors && errors.ui_name" class="text-danger">
+                                        <span v-for="error in errors.ui_name" :key="error">{{ error }}</span>
                                     </small>
 
                                 </p>
 
                                 <p>
 
-                                    <input type="email" placeholder="La tua email" :class="errors && errors.ui_email ? 'text-danger' : 'input_style'" v-model="ui_email">
+                                    <input type="email" name="ui_email" placeholder="La tua email" :class="errors && errors.ui_email ? 'text-danger' : 'input_style'" v-model="ui_email">
                                     <span>caratteri rimasti: {{ 100 - ui_email.length }}</span>
                                     <small v-if="errors && errors.ui_email" class="text-danger">
                                         <span v-for="error in errors.ui_email" :key="error">{{ error }}</span>
@@ -236,16 +246,13 @@
 
                                 <p>
 
-                                    <input type="text" placeholder="Il tuo telefono" :class="errors && errors.ui_phone ? 'text-danger' : 'input_style'" v-model="ui_phone">
+                                    <input type="text" name="ui_phone" placeholder="Il tuo telefono" :class="errors && errors.ui_phone ? 'text-danger' : 'input_style'" v-model="ui_phone">
                                     <span>caratteri rimasti: {{ 100 - ui_phone.length }}</span>
-                                    <small v-if="errors && errors.ui_phone" class="text-danger">
-                                        <span v-for="error in errors.ui_phone" :key="error">{{ error }}</span>
-                                    </small>
 
                                 </p>
 
                                 <p>
-                                    <select name="" id="" v-model="title" :class="errors && errors.title ? 'text-danger' : 'input_style'">
+                                    <select name="title" id="title" v-model="title" :class="errors && errors.title ? 'text-danger' : 'input_style'">
                                         <option value=""> La tua richiesta </option>
                                         <option value="prenotazione">Richiesta di prenotazione</option>
                                         <option value="annullamento">Richiesta di annullamento</option>
@@ -258,14 +265,14 @@
 
                             </div>
                             <p>
-                                <textarea name="" id="" cols="30" rows="10" v-model="text" :class="errors && errors.text ? 'text-danger' : 'input_style'">
+                                <textarea name="text" id="text" cols="30" rows="10" v-model="text" :class="errors && errors.text ? 'text-danger' : 'input_style'">
                                     Scrivi il tuo messaggio
                                 </textarea>
                                 <small v-if="errors && errors.text" class="text-danger">
                                     <span v-for="error in errors.text" :key="error">{{ error }}</span>
                                 </small>
                             </p>
-                            <button v-if="loading === false" type="submit" class="input_style" :class=" !formValidate() ? 'opacity-25' : '', 'input_style'">
+                            <button v-if="loading === false" type="submit" :class=" !formValidate() ? 'opacity-25' : '', 'input_style'">
                                 Invia il messaggio
                             </button>
                             <div class="animate-pulse" v-else>sending...</div>
