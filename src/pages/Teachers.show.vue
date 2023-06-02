@@ -28,7 +28,6 @@
                 userReview: '',
 
                 vote: 0
-
             }
         },
         props: ['id'],
@@ -172,7 +171,7 @@
 
                 this.loading = true;
 
-                axios.post('http://127.0.0.1:8000/api/votes',data)
+                axios.post('http://127.0.0.1:8000/api/teacher-votes', JSON.stringify(data))
                     .then(res => {
                         // console.log(res)
                         const { success, errors } = res.data;
@@ -300,12 +299,12 @@
                                         <input type="hidden" name="teacher_id" v-model="teacherId">
                                     </p>
                                     <p>
-                                        <select name="vote" id="vote" v-model="vote" :class="errors && errors.vote ? 'text-danger' : 'input_style'">
+                                        <select name="vote_id" id="vote" v-model="vote" :class="errors && errors.vote ? 'text-danger' : 'input_style'">
                                             <option value=""> Inserisci una valutazione da 1 a 5 al docente </option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
-                                            <option value="3">4</option>
+                                            <option value="4">4</option>
                                             <option value="3">5</option>
                                         </select>
                                         <button type="submit" class="input_style">
