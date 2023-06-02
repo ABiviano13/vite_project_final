@@ -10,6 +10,7 @@
         },
         data() {
             return {
+                teacherId: null,
                 teacher: null,
                 loading: false,
                 reviews: [],
@@ -36,6 +37,8 @@
                     const { success, teacher} = response.data
                     if(success) {
                         this.teacher = teacher
+                        this.teacherId = teacher.id
+                        console.log(this.teacherId)
                         this.reviews = teacher.review
 
                         this.store.reviewsTeacherLength = this.reviews.length
@@ -67,7 +70,8 @@
             },
 
             sendForm() {
-                let data = {
+                const data = {
+                    teacher_id: this.teacherId,
                     ui_name: this.ui_name,
                     ui_email: this.ui_email,
                     ui_phone: this.ui_phone,
@@ -82,28 +86,33 @@
 
                 this.loading = true;
 
-                axios
-                    .post("http://127.0.0.1:8000/api/messages", data)
-                    .then(res => {
-                    let { success, errors } = res.data;
-                    this.success = success;
+                console.log(data)
 
-                    if (success) {
-                        this.ui_name = "";
-                        this.ui_email = "";
-                        this.ui_phone = "";
-                        this.title = "";
-                        this.text = "";
-                        this.errors = null;
-                    } else {
-                        this.errors = errors;
-                        console.log(errors)
-                    }
-                })
-                .catch((err) => {})
-                .finally(() => {
-                    this.loading = false;
-                });
+                axios.post('http://127.0.0.1:8000/api/messages',data)
+                    .then(res => {
+                        console.log(res)
+                        const { success, errors } = res.data;
+
+                        this.success = success;
+
+                        if (success) {
+                            this.ui_name = '';
+                            this.ui_email = '';
+                            this.ui_phone = '';
+                            this.title = '';
+                            this.text = '';
+                            this.errors = null;
+                        } else {
+                            this.errors = errors;
+                            console.log(errors)
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    });
             }
         },
         computed: {
@@ -181,7 +190,7 @@
                                     </div>
                                 </div>
 
-                                <form action="">
+                                <form action=''>
                                     <textarea name="review" id="review" cols="20" rows="5" placeholder="Scrivi la tua recensione"></textarea>
                                 </form>
 
@@ -225,6 +234,9 @@
                         <form @submit.prevent="sendForm" class="d-flex flex-column gap-2">
 
                             <div class="d-flex justify-content-around">
+                                <p>
+                                    <input type="hidden" name="teacher_id" v-model="teacherId">
+                                </p>
                                 <p>
                                     <input type="text" name="ui_name" placeholder="Il tuo nome" :class="errors && errors.ui_name ? 'text-danger' : 'input_style'" v-model="ui_name">
                                     <span>caratteri rimasti: {{ 100 - ui_name.length }}</span>
