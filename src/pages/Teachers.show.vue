@@ -25,7 +25,9 @@
                 errors: null,
 
                 review: '',
-                userReview: ''
+                userReview: '',
+
+                vote: 0
 
             }
         },
@@ -161,6 +163,36 @@
                     .finally(() => {
                         this.loading = false;
                     });
+            },
+            sendVoteForm() {
+                const data = {
+                    teacher_id: this.teacherId,
+                    vote: this.vote
+                }
+
+                this.loading = true;
+
+                axios.post('http://127.0.0.1:8000/api/votes',data)
+                    .then(res => {
+                        // console.log(res)
+                        const { success, errors } = res.data;
+
+                        this.success = success;
+
+                        if (success) {
+                            this.vote = 0
+                            this.errors = null;
+                        } else {
+                            this.errors = errors;
+                            console.log(errors)
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    });
             }
         },
         computed: {
@@ -233,9 +265,9 @@
                                         <ul id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                             <li class="accordion-body" v-for="review in teacher.review">
                                                 <h5 class="fw-bold">
-                                                    {{ review.user }}
+                                                    {{ review.userReview }}
                                                 </h5>
-                                                {{ review.text }}                                    
+                                                {{ review.review }}                                    
                                             </li>
                                         </ul>
                                     </div>
@@ -261,6 +293,25 @@
                                         Invia il messaggio
                                     </button>
                                     <div class="animate-pulse" v-else>sending...</div>
+                                </form>
+
+                                <form @submit.prevent="sendVoteForm">
+                                    <p>
+                                        <input type="hidden" name="teacher_id" v-model="teacherId">
+                                    </p>
+                                    <p>
+                                        <select name="vote" id="vote" v-model="vote" :class="errors && errors.vote ? 'text-danger' : 'input_style'">
+                                            <option value=""> Inserisci una valutazione da 1 a 5 al docente </option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="3">4</option>
+                                            <option value="3">5</option>
+                                        </select>
+                                        <button type="submit" class="input_style">
+                                            Invia la tua valutazione
+                                        </button>
+                                    </p>
                                 </form>
 
                             </div>
