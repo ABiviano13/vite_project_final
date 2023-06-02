@@ -15,6 +15,7 @@
                 loading: false,
                 reviews: [],
                 store,
+
                 ui_name: '',
                 ui_email: '',
                 ui_phone: '',
@@ -22,6 +23,9 @@
                 text: '',
                 success: false,
                 errors: null,
+
+                review: '',
+                userReview: ''
 
             }
         },
@@ -68,6 +72,13 @@
 
                 return nameValid && emailValid && textValid && textLenghtValid && phoneValid && titleValid;
             },
+            formReviewValidate() {
+                let userReviewValid = this.userReview.trim() !== "" && this.userReview.trim().length <= 50;
+                let reviewValid = this.review.trim() !== "" && this.review.trim().length <= 3000;
+                let textLenghtValid = this.review.trim().length <= 1000;
+
+                return userReviewValid && reviewValid && textLenghtValid;
+            },
 
             sendForm() {
                 const data = {
@@ -101,6 +112,43 @@
                             this.ui_phone = '';
                             this.title = '';
                             this.text = '';
+                            this.errors = null;
+                        } else {
+                            this.errors = errors;
+                            console.log(errors)
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                    });
+            },
+            sendReviewForm() {
+                const data = {
+                    teacher_id: this.teacherId,
+                    review: this.review,
+                    userReview: this.userReview
+                }
+
+                if(!this.formReviewValidate()) {
+                    alert('Compila il form')
+                    return 
+                }
+
+                this.loading = true;
+
+                axios.post('http://127.0.0.1:8000/api/reviews',data)
+                    .then(res => {
+                        // console.log(res)
+                        const { success, errors } = res.data;
+
+                        this.success = success;
+
+                        if (success) {
+                            this.review = '',
+                            this.userReview = '',
                             this.errors = null;
                         } else {
                             this.errors = errors;
@@ -184,14 +232,35 @@
                                         </h2>
                                         <ul id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                             <li class="accordion-body" v-for="review in teacher.review">
+                                                <h5 class="fw-bold">
+                                                    {{ review.user }}
+                                                </h5>
                                                 {{ review.text }}                                    
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
 
-                                <form action=''>
-                                    <textarea name="review" id="review" cols="20" rows="5" placeholder="Scrivi la tua recensione"></textarea>
+                                <form @submit.prevent="sendReviewForm">
+                                    <p>
+                                        <input type="hidden" name="teacher_id" v-model="teacherId">
+                                    </p>
+                                    <p>
+                                        <input type="text" placeholder="Il tuo nome" name="user" v-model="userReview">
+                                        <small v-if="errors && errors.userReview" class="text-danger">
+                                            <span v-for="error in errors.userReview" :key="error">{{ error }}</span>
+                                        </small>
+                                    </p>
+                                    <p>
+                                        <textarea name="review" id="review" cols="60" rows="5" placeholder="Scrivi la tua recensione" class="input_style" v-model="review"></textarea>
+                                        <small v-if="errors && errors.review" class="text-danger">
+                                            <span v-for="error in errors.review" :key="error">{{ error }}</span>
+                                        </small>
+                                    </p>
+                                    <button v-if="loading === false" type="submit" class="input_style" :class=" !formReviewValidate() ? 'opacity-25' : ''">
+                                        Invia il messaggio
+                                    </button>
+                                    <div class="animate-pulse" v-else>sending...</div>
                                 </form>
 
                             </div>
@@ -284,7 +353,7 @@
                                     <span v-for="error in errors.text" :key="error">{{ error }}</span>
                                 </small>
                             </p>
-                            <button v-if="loading === false" type="submit" :class=" !formValidate() ? 'opacity-25' : '', 'input_style'">
+                            <button v-if="loading === false" type="submit" class="input_style" :class=" !formValidate() ? 'opacity-25' : ''">
                                 Invia il messaggio
                             </button>
                             <div class="animate-pulse" v-else>sending...</div>
@@ -309,6 +378,10 @@
     li{
         list-style: circle;
     }
+
+    // .accordion{
+    //     z-index: 0;
+    // }
 
     .accordion-button:not(.collapsed){
         background-color: $white !important;
