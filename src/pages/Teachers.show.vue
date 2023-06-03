@@ -166,15 +166,15 @@
             sendVoteForm() {
                 const data = {
                     teacher_id: this.teacherId,
-                    vote: this.selectedVote,
-                    selectedVote: parseInt(this.selectedVote)
-                }
+                    vote_id: parseInt(this.selectedVote),
 
+                }
+                console.log(data)
                 console.log(this.teacherId, this.selectedVote)
 
                 this.loading = true;
 
-                axios.post('http://127.0.0.1:8000/api/teacher-votes', JSON.stringify(data))
+                axios.post('http://127.0.0.1:8000/api/teacher-votes',(data))
                     .then(res => {
                     // console.log(res)
                     const { success, errors } = res.data;
@@ -190,11 +190,20 @@
                     }
                 })
                 .catch(err => {
-                    console.log(err)
-                })
+                    if (err.response) {
+                        console.log(err.response.data); // Contenuto della risposta di errore dal server
+                        console.log(err.response.status); // Codice di stato HTTP della risposta
+                        console.log(err.response.headers); // Intestazioni HTTP della risposta
+                    } else if (err.request) {
+                        console.log(err.request); // Informazioni sulla richiesta che non ha ricevuto una risposta
+                    } else {
+                        console.log('Error', err.message); // Messaggio di errore generale
+                    }
+                    console.log(err.config); // Configurazione della richiesta Axios
+                    })
                 .finally(() => {
                     this.loading = false;
-                });
+                })
             }
 
         },
