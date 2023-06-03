@@ -27,7 +27,7 @@
                 review: '',
                 userReview: '',
 
-                vote: 0
+                selectedVote: 0
             }
         },
         props: ['id'],
@@ -166,33 +166,37 @@
             sendVoteForm() {
                 const data = {
                     teacher_id: this.teacherId,
-                    vote: this.vote
+                    vote: this.selectedVote,
+                    selectedVote: parseInt(this.selectedVote)
                 }
+
+                console.log(this.teacherId, this.selectedVote)
 
                 this.loading = true;
 
                 axios.post('http://127.0.0.1:8000/api/teacher-votes', JSON.stringify(data))
                     .then(res => {
-                        // console.log(res)
-                        const { success, errors } = res.data;
+                    // console.log(res)
+                    const { success, errors } = res.data;
 
-                        this.success = success;
+                    this.success = success;
 
-                        if (success) {
-                            this.vote = 0
-                            this.errors = null;
-                        } else {
-                            this.errors = errors;
-                            console.log(errors)
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
-                    .finally(() => {
-                        this.loading = false;
-                    });
+                    if (success) {
+                        this.selectedVote = 0
+                        this.errors = null;
+                    } else {
+                        this.errors = errors;
+                        console.log(errors)
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
             }
+
         },
         computed: {
             lengthReviews() {
@@ -299,13 +303,13 @@
                                         <input type="hidden" name="teacher_id" v-model="teacherId">
                                     </p>
                                     <p>
-                                        <select name="vote_id" id="vote" v-model="vote" :class="errors && errors.vote ? 'text-danger' : 'input_style'">
-                                            <option value=""> Inserisci una valutazione da 1 a 5 al docente </option>
+                                        <select name="vote_id" id="vote" v-model="selectedVote" :class="errors && errors.vote ? 'text-danger' : 'input_style'">
+                                            <option value="">Inserisci una valutazione da 1 a 5 al docente</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="4">4</option>
-                                            <option value="3">5</option>
+                                            <option value="5">5</option>
                                         </select>
                                         <button type="submit" class="input_style">
                                             Invia la tua valutazione
