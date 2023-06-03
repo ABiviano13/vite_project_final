@@ -16,10 +16,6 @@ export default {
               {
                 link: 'Professori',
                 name_route: 'teachers.index'
-              },
-              {
-                link: 'Chi siamo',
-                name_route: 'who_we_are'
               }
                 
             ]
