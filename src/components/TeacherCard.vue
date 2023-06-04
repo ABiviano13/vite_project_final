@@ -75,7 +75,7 @@
                 </p>
         </div>
         <router-link :to="{name: 'teachers.show', params: { id: teacher.id } }" class="router">
-            <button type="button" class="btn btn-success card-button">Visualizza</button>
+            <button type="button" class="btn card-button">Visualizza</button>
         </router-link>
     </div> 
 
@@ -109,6 +109,10 @@
         .star_votes{
             position: relative;
             bottom: 20px;
+
+            .fa-star{
+                color: $light_green;
+            }
         }
 
     }
@@ -118,6 +122,8 @@
         left: 50%;
         bottom: 30%;
         transform: translate(-50%);
+        background-color: $light_green;
+        color: $white_gold;
     }
 }
 

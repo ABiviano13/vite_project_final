@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5>Cerca attraverso i filtri</h5>
+    <h3>Cerca attraverso i filtri</h3>
     <div class="filter">
       <input
         type="text"
@@ -45,7 +45,7 @@
         Nessun professore trovato.
       </div>
     </div>
-    <div v-else>Caricamento in corso...</div>
+    <div v-else class="no-results">Caricamento in corso...</div>
   </div>
 </template>
 
@@ -153,5 +153,14 @@ export default {
 
 .hidden {
   display: none;
+}
+
+.no-results{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size:larger;
+  color: $light_green;
+  padding-top: 50px;
 }
 </style>
