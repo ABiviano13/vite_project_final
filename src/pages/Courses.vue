@@ -8,43 +8,16 @@ export default {
   },
   data() {
     return {
-      teachers: [],
       specializations: [],
-      Images: [
-        "public/Archivio/01.jpg",
-        "public/Archivio/02.jpeg",
-        "public/Archivio/03.jpeg",
-        "public/Archivio/04.jpeg",
-        "public/Archivio/05.jpeg",
-        "public/Archivio/06.jpeg",
-        "public/Archivio/07.jpeg",
-        "public/Archivio/08.webp",
-        "public/Archivio/09.jpeg",
-        "public/Archivio/10.jpeg",
-        "public/Archivio/11.webp",
-        "public/Archivio/12.jpeg",
-        "public/Archivio/13.jpeg",
-        "public/Archivio/14.webp",
-        "public/Archivio/15.jpeg",
-      ],
     };
   },
   methods: {
-    fetchTeachers() {
+    fetchSpecializations() {
       axios
-        .get("http://127.0.0.1:8000/api/teachers")
+        .get("http://127.0.0.1:8000/api/specializations")
         .then((response) => {
-          const results = response.data.results;
-          this.teachers = results;
-
-          // console.log(results);
-
-          const allSpecializations = results.flatMap(
-            (teacher) => teacher.specializations
-          );
-          this.specializations = allSpecializations;
-
-          // console.log(this.specializations)
+          const results = response.data;
+          this.specializations = results;
         })
         .catch((error) => {
           console.log(error);
@@ -52,7 +25,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchTeachers();
+    this.fetchSpecializations();
   },
 };
 </script>
@@ -60,23 +33,50 @@ export default {
 <template>
   <Default>
     <div class="container">
-      <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div class="col" v-for="specialization in specializations">
-          <div class="card">
-            <img src="..." class="card-img-top" alt="..."  />
-            <div class="card-body">
-              <h5 class="card-title">
-                {{ specialization.name }}
-              </h5>
-              <p class="card-text">
-                {{ specialization.description }}
-              </p>
+      <h1 class="title_specializations">
+        Le specializzazioni dei nostri professori
+      </h1>
+      <div v-if="specializations.length">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-4">
+          <div class="col" v-for="specialization in specializations">
+            <div class="card">
+              <img
+                :src="specialization.images"
+                class="card-img-top img-thumbnail resized"
+                alt="..."
+              />
+              <div class="card-body">
+                <h5 class="card-title title_specializations">
+                  {{ specialization.name }}
+                </h5>
+                <p class="card-text mt-3">
+                  {{ specialization.description }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div v-else class="no-results">Caricamento in corso...</div>
     </div>
   </Default>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+@use "../style/partials/variables.scss" as *;
+.title_specializations {
+  color: $light_green;
+}
+.card {
+  height: 100%;
+  border-radius: 20px;
+
+  .card-img-top {
+    border-radius: 20px;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+</style>
