@@ -66,6 +66,11 @@ export default {
 @use "../style/partials/variables.scss" as *;
 .title_specializations {
   color: $light_green;
+  padding: 5px;
+  border-left: 2px solid $light_green;
+  border-right: 2px solid $light_green;
+  border-bottom: 2px solid $light_green;
+
 }
 .card {
   height: 100%;

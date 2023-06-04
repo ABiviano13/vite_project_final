@@ -62,9 +62,11 @@ export default {
     </div>
   </div>
   <section class="container-footer mt-5 pt-5">
-    <div class="container d-flex flex-column justify-content-center gap-4 text-center">
+    <div
+      class="container d-flex flex-column justify-content-center gap-4 text-center"
+    >
       <img src="public/img/logo.png" alt="logo" class="logo" />
-      <p class="">
+      <p class="text-footer">
         I nostri professori metteranno impegno per farvi arrivare al successo
         che gradite, in base all'impegno di voi stessi; <br />
         con queste premesse possiamo affermare che il successo è garantito!
@@ -115,8 +117,32 @@ export default {
     margin: 0 auto;
   }
 
-  .text_copyright{
+  .text_copyright {
     font-size: x-small;
+  }
+}
+
+@media only screen and (max-width: 774px) {
+  .container-footer {
+    .logo {
+      width: 30%;
+    }
+    .text-footer {
+      font-size: x-small;
+    }
+
+    .text_copyright {
+      font-size: xx-small;
+    }
+  }
+
+  .row {
+    justify-content: center;
+    align-items: center;
+
+    [class*="col-"] {
+      width: 100%;
+    }
   }
 }
 </style>

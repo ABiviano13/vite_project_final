@@ -110,7 +110,7 @@ export default {
           nostra piattaforma!
         </h3>
         <div
-          class="row align-center justify-content-around text-center text_white_gold"
+          class="row row-cols-1 row-cols-md-2 row-cols-lg-3 justify-content-center text-center text_white_gold"
         >
           <div class="col" v-for="sponsor in sponsorships">
             <div class="card mb-3 border_white_gold" style="max-width: 18rem">
@@ -177,6 +177,7 @@ export default {
   border: 1px solid $white_gold;
   border-radius: 20px;
   color: $light_green !important;
+  background-color: $white_gold;
 }
 
 .section_sponsor {
@@ -186,6 +187,13 @@ export default {
     background-color: $light_green;
     margin: 0 auto;
     height: 100%;
+
+    .card-header{
+      background-color: $white_gold;
+      color: $light_green;
+      border-radius: 18px;
+      padding: 20px;
+    }
   }
 
   .border_white_gold {
@@ -195,5 +203,26 @@ export default {
   .text_white_gold {
     color: $white_gold !important;
   }
+}
+
+@media only screen and (max-width: 990px) {
+  .section_sponsor{
+    .col{
+      margin-top: 10px;
+    }
+  }
+
+  .carosell{
+    width: 60%;
+  }
+}
+
+@media only screen and (max-width: 774px) {
+  .title{
+    h4 {
+      font-size: medium;
+    }
+  }
+
 }
 </style>

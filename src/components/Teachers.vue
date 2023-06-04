@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <h3>Cerca attraverso i filtri</h3>
+  <section class="teachers">
+    <h1 class="title_teachers">La nostra vetrina di professionisti</h1>
+    <h5>Cerca attraverso i filtri</h5>
     <div class="filter">
       <input
         type="text"
@@ -8,6 +9,13 @@
         v-model="search"
         placeholder="Cerca teacher"
       />
+
+      <select v-model="selectedStars" class="select_filter">
+        <option value="">Stelle</option>
+        <option v-for="star in votes" :value="star" :key="star.id">
+          {{ star }}
+        </option>
+      </select>
 
       <select v-model="selectedSpecialization" class="select_filter">
         <option value="">Tutte le specializzazioni</option>
@@ -19,34 +27,23 @@
           {{ specialization }}
         </option>
       </select>
-
-      <select v-model="selectedStars" class="select_filter">
-        <option value="">Stelle</option>
-        <option v-for="star in votes" :value="star" :key="star.id">
-          {{ star }}
-        </option>
-      </select>
     </div>
 
     <div v-if="teachers.length">
-      <div class="row justify-content-around">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mt-4">
         <TeacherCard
           v-for="teacher in filteredTeachers"
           :teacher="teacher"
           :specializations="teacher.specializations"
           :key="teacher.id"
-          class="col-3"
         ></TeacherCard>
       </div>
-      <div
-        v-if="filteredTeachers.length == 0"
-        class="no-results"
-      >
+      <div v-if="filteredTeachers.length == 0" class="no-results">
         Nessun professore trovato.
       </div>
     </div>
     <div v-else class="no-results">Caricamento in corso...</div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -95,14 +92,6 @@ export default {
           console.log(error);
         });
     },
-    // isHidden(teacher) {
-    //   const name = teacher.user.name.toLowerCase();
-    //   const search = this.search.trim().toLowerCase();
-
-    //   const result = !name.includes(search);
-
-    //   return result;
-    // },
   },
   mounted() {
     this.fetchTeachers();
@@ -138,11 +127,20 @@ export default {
 <style lang="scss">
 @use "../style/partials/variables.scss" as *;
 
+.title_teachers{
+  color: $light_green;
+  padding: 5px;
+  border-left: 2px solid $light_green;
+  border-right: 2px solid $light_green;
+  border-bottom: 2px solid $light_green;
+}
+
 .filter {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+
   .select_filter {
     margin: 15px;
     padding: 5px;
@@ -155,12 +153,28 @@ export default {
   display: none;
 }
 
-.no-results{
+.no-results {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size:larger;
+  font-size: larger;
   color: $light_green;
   padding-top: 50px;
+}
+
+@media only screen and (max-width: 774px) {
+
+  .filter{
+    flex-wrap: wrap;
+  }
+  .row {
+    justify-content: center;
+    align-items: center;
+
+    [class*="col-"] {
+      width: 100%;
+    }
+
+  }
 }
 </style>
