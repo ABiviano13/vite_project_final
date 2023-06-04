@@ -9,13 +9,10 @@ export default {
   data() {
     return {
       images_spec: [
-        "/public/Archivio/02.jpeg",
-        "/public/Archivio/05.jpeg",
         "/public/Archivio/06.jpeg",
         "/public/Archivio/11.webp",
         "/public/Archivio/12.jpeg",
         "/public/Archivio/13.jpeg",
-        "/public/Archivio/14.webp",
         "/public/Archivio/15.jpeg",
       ],
       currentIndex: 0,
@@ -71,7 +68,16 @@ export default {
   <Default>
     <div class="container">
       <div class="hero">
-        <div class="row">
+        <div class="row gap-5">
+          <div class="title mt-4">
+            <h1>
+              Vuoi avere successo nella tua vita? allora sei nel posto giusto!
+            </h1>
+            <h4>
+              Oppure sei un professionista e vuoi rendere il tuo profilo più
+              visibile? Registrati!
+            </h4>
+          </div>
           <div class="carosell col-6">
             <div
               v-for="(image, index) in images_spec"
@@ -100,7 +106,8 @@ export default {
     <section class="section_sponsor mt-3">
       <div class="container">
         <h3 class="mb-5 text_white_gold">
-            Ecco le sponsorizzazioni che offriamo se entri a far parte della nostra piattaforma!
+          Ecco le sponsorizzazioni che offriamo se entri a far parte della
+          nostra piattaforma!
         </h3>
         <div
           class="row align-center justify-content-around text-center text_white_gold"
@@ -116,7 +123,11 @@ export default {
                 </p>
               </div>
               <div class="card-footer border_white_gold">
-                <button type="submit" class="button_style">Clicca qui</button>
+                <button type="submit" class="button_style">
+                  <a href="http://127.0.0.1:8000/login">
+                    Clicca qui
+                  </a>
+                </button>
               </div>
             </div>
           </div>
@@ -130,9 +141,13 @@ export default {
 @use "../style/partials/variables.scss" as *;
 
 .hero {
+  color: $light_green;
   .row {
     .carosell {
       margin: 0 auto;
+      border: 2px solid $light_green;
+      border-radius: 20px;
+      padding: 20px;
       img {
         width: 100%;
         aspect-ratio: 16/9;
@@ -150,7 +165,7 @@ export default {
         position: relative;
       }
 
-      .button_style{
+      .button_style {
         border: 1px solid $light_green;
       }
     }
@@ -158,7 +173,7 @@ export default {
 }
 .button_style {
   margin: 15px;
-  padding: 5px;
+  padding: 10px;
   border: 1px solid $white_gold;
   border-radius: 20px;
   color: $light_green !important;

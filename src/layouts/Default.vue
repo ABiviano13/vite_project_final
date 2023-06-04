@@ -1,10 +1,12 @@
 <script>
 import HeaderComponent from '../components/Header.vue';
+import FooterComponent from '../components/Footer.vue';
 
 export default {
     components: {
-        HeaderComponent
-    }
+    HeaderComponent,
+    FooterComponent,
+}
 }
     
 </script>
@@ -18,8 +20,8 @@ export default {
         <slot />
     </main>
 
-    <footer>
-        Footer
+    <footer class="main-footer">
+        <FooterComponent></FooterComponent>
     </footer>
 </template>
 
@@ -35,6 +37,10 @@ export default {
 
 .main-content{
     margin-top: 5%;
+}
+
+.main-footer{
+    margin-top: 100px;
 }
 
 </style>
