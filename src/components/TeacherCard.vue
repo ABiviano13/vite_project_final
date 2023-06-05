@@ -77,7 +77,7 @@
             </div>
             <router-link :to="{name: 'teachers.show', params: { id: teacher.id } }" class="router">
                 <button type="button" class="btn card-button">Visualizza</button>
-             </router-link>
+            </router-link>
     </div> 
 </div>
     
