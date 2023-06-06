@@ -65,7 +65,7 @@ export default {
     <div
       class="container d-flex flex-column justify-content-center gap-4 text-center"
     >
-      <img src="img/logo.png" alt="logo" class="logo" />
+      <img src="/public/img/logo.png" alt="logo" class="logo">
       <p class="text-footer">
         I nostri professori metteranno impegno per farvi arrivare al successo
         che gradite, in base all'impegno di voi stessi; <br />

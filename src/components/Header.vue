@@ -10,11 +10,11 @@ export default {
                 name_route: 'home'
               },
               {
-                link: 'Corsi',
+                link: 'Specializzazioni',
                 name_route: 'courses'
               },
               {
-                link: 'Professori',
+                link: 'Professionisti',
                 name_route: 'teachers.index'
               }
                 

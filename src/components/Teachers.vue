@@ -39,7 +39,7 @@
         ></TeacherCard>
       </div>
       <div v-if="filteredTeachers.length == 0" class="no-results">
-        Nessun professore trovato.
+        Nessun professionista trovato.
       </div>
     </div>
     <div v-else class="no-results">Caricamento in corso...</div>

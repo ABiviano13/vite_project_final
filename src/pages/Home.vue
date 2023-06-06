@@ -90,7 +90,7 @@ export default {
           <div class="col-12 d-flex justify-content-around align-center">
             <button class="button_style">
               <router-link :to="{ name: 'courses' }" class="router">
-                Vedi la lista completa dei nostri corsi
+                Vedi la lista completa delle specializzazioni 
               </router-link>
             </button>
 
